@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/CSS/style.css}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: linear-gradient(to right, #f7f8fc, #e0e7ff);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            max-width: 500px;
+        }
+        .congrats {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #4caf50;
+            animation: bounce 2s infinite;
+        }
+        .account-number {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .btn-login {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="congrats">Congratulations!!!</div>
+        <h2 class="font-weight-bold" th:text="${name}"></h2>
+        <p style="color:rgb(255, 128, 64);">You have been registered successfully.</p>
+        <p style="color:rgb(0, 0, 255);">Your account number is 
+            <span class="account-number" th:text="${accountNo}"></span>
+        </p>
+        <a href="/central-bank/login" class="btn-login">
+            <i class="fas fa-sign-in-alt"></i> Click to Login
+        </a>
+    </div>
+</body>
+</html>

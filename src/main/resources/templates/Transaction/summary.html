@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <style>
+        body {
+            background-image: url('path_to_your_image'); /* Replace with the correct path to the image */
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            cursor: pointer;
+        }
+
+        .green-text {
+            color: green;
+        }
+
+        .red-text {
+            color: red;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+    </style>
+    <link href="path_to_bootstrap_css" rel="stylesheet"> <!-- Replace with actual path -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body onload="initializeTable()">
+    <div class="container">
+        <label class="lah" style="color: blue">Transaction Summary</label>
+
+        <input type="text" id="transactionFilter" class="filter-input" placeholder="Search transactions...">
+
+        <div class="table-container">
+            <table id="transactionTable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">S.No</th>
+                        <th onclick="sortTable(1)">Account No</th>
+                        <th onclick="sortTable(2)">Date</th>
+                        <th onclick="sortTable(3)">Time</th>
+                        <th onclick="sortTable(4)">Amount</th>
+                        <th onclick="sortTable(5)">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tr, i : ${list}">
+                        <td th:text="${i.count}"></td>
+                        <td th:text="${accountno}"></td>
+                        <td th:text="${date}"></td>
+                        <td th:text="${time}"></td>
+                        <td th:text="${amount}"></td>
+                        <td th:if="${tr.transactionType == 'credit'}" class="green-text" th:text="${transactionType}"></td>
+                        <td th:if="${tr.transactionType == 'debit'}" class="red-text" th:text="${transactionTypee}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function initializeTable() {
+            // Filter functionality
+            $("#transactionFilter").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#transactionTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        }
+
+        function sortTable(columnIndex) {
+            var table = document.getElementById("transactionTable");
+            var rows, switching, i, x, y, shouldSwitch, direction, switchcount = 0;
+            switching = true;
+            direction = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                    if (direction == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (direction == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && direction == "asc") {
+                        direction = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
